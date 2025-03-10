@@ -1,0 +1,23 @@
+---
+description: Creating and Editing React Components
+globs: *.tsx *.ts *.scss *.css
+alwaysApply: false
+---
+// component_structure.mdc
+rule "component_structure" {
+  description: "Enforce component structure and naming conventions"
+  severity: error
+  match: |
+    export\s+(default\s+)?(?:function|const)\s+([a-z]\w+|\w+(?<!Props|Interface|Type))\s*[:=]
+  message: "Component names must use PascalCase and be exported as arrow functions"
+  examples: {
+    correct: [
+      "export const UserProfile: React.FC<UserProfileProps> = () => {",
+      "export const MapContainer = () => {"
+    ],
+    incorrect: [
+      "export function userProfile() {",
+      "export default function myComponent() {"
+    ]
+  }
+}

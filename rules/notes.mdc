@@ -1,0 +1,16 @@
+---
+description: Keep Notes
+globs: 
+alwaysApply: false
+---
+// cursor_ai_task_and_summary.mdc
+rule "cursor_ai_task_and_summary" {
+  description: "Ensure the Cursor AI maintains 'task_list.md' and 'conversation_summary.md' with active/planned tasks and current conversation notes"
+  severity: info
+  message: "Cursor AI must update 'task_list.md' with active and planned tasks and regularly refresh 'conversation_summary.md' with conversation notes after significant updates."
+  options: {
+    task_list_file: "task_list.md",
+    summary_file: "conversation_summary.md",
+    update_interval: "after each significant conversation update"
+  }
+}

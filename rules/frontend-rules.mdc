@@ -1,0 +1,234 @@
+---
+description: FrontEnd Developmet
+globs: *.tsx *.ts *.js *.jsx *.scss *.css
+alwaysApply: false
+---
+---
+version: 1.0
+description: Frontend Development Guidelines
+globs: *.tsx,*.ts,*.js,*.jsx,*.scss,*.css
+lastUpdated: 2025-03-08
+---
+
+# Wanderer Project – Frontend Guidelines
+
+## Quick Reference
+- ✅ Components must use PascalCase and arrow function syntax
+- ✅ Use TypeScript types, avoid 'any'
+- ✅ SCSS modules only (.module.scss)
+- ❌ No direct style imports outside .module.scss files
+- ❌ No useMapRootProvider in Map.tsx
+- ⚠️ Keep components under 250 lines
+- ⚠️ Follow folder structure conventions
+
+## Components & Folder Structure
+
+### Component Organization
+MyComponent/
+├── index.ts
+├── MyComponent.tsx
+├── MyComponent.module.scss    // Must correspond one-to-one with the component file
+├── components/   (optional)
+├── helpers/      (optional)
+├── hooks/        (optional)
+├── types.ts      (optional)
+└── constants.ts  (optional)
+
+### Resource Organization
+- **Global Resources:**
+  - Constants: Place in `assets/js/hooks/Mapper/constants.ts`
+  - Types: Place in `assets/js/hooks/Mapper/types`
+- **Component Resources:**
+  - Place component-specific resources within component directory
+
+### Styling Guidelines
+- Use PrimeReact + Tailwind CSS
+- LiveView Phoenix SSR for all pages except Map component
+- SCSS modules only (*.module.scss)
+- No style files for hooks
+- Use :global blocks sparingly
+- Prioritize Tailwind over custom CSS
+
+### Code Quality & Best Practices
+- Modern ES6+ syntax
+- Use const/let, single quotes
+- No 'any' type
+- Arrow function components
+- **Naming:**
+  - Components: PascalCase (MyComponent.tsx)
+  - Hooks: use prefix (useMapData)
+  - Helpers: camelCase (myHelper.ts)
+  - Styles: kebab-case (my-component.module.scss)
+  - Constants: UPPER_SNAKE_CASE
+  - Events: snake_case
+- ESLint autofix before commits
+- 2 space indentation
+- Trailing commas required
+- No unused imports
+- Avoid multi-line ternaries
+- Use exit-first conditions
+- React error boundaries
+- Components under 250 lines
+- Proper state management
+
+### Map-Specific Guidelines
+- Use useMapProvider for map data
+- NO useMapRootProvider in Map.tsx
+- Core Components:
+  - MapInterface: Widget container
+  - MapWrapper: React Flow renderer
+
+## MDC Rules
+
+### 1. Component Structure Rules
+
+rule "component_structure" {
+  description: "Enforce component structure and naming conventions"
+  severity: error
+  match: |
+    export\s+(default\s+)?(?:function|const)\s+([a-z]\w+|\w+(?<!Props|Interface|Type))\s*[:=]
+  message: "Component names must use PascalCase and be exported as arrow functions"
+  examples: {
+    correct: [
+      "export const UserProfile: React.FC<UserProfileProps> = () => {",
+      "export const MapContainer = () => {"
+    ],
+    incorrect: [
+      "export function userProfile() {",
+      "export default function myComponent() {"
+    ]
+  }
+}
+
+rule "component_props_interface" {
+  description: "Ensure components have properly typed props"
+  severity: error
+  match: |
+    export\s+const\s+([A-Z]\w+)\s*=\s*\(\s*(?!:)
+  message: "Component props must be explicitly typed"
+}
+
+### 2. Hook Rules
+
+rule "hook_naming_and_structure" {
+  description: "Enforce hook naming and implementation patterns"
+  severity: error
+  match: |
+    export\s+const\s+(?!use[A-Z])\w+\s*=\s*\([^)]*\)\s*=>\s*{[^}]*useState|useEffect|useCallback|useMemo
+  message: "Custom hooks must start with 'use' prefix and be properly typed"
+}
+
+rule "effect_dependencies" {
+  description: "Ensure useEffect hooks have dependency arrays"
+  severity: error
+  match: |
+    useEffect\(\s*\(\)\s*=>\s*{[^}]*}\s*\)(?!\s*,\s*\[)
+  message: "useEffect must specify dependencies array"
+}
+
+### 3. Styling Rules
+
+rule "scss_module_pattern" {
+  description: "Enforce SCSS module usage and naming conventions"
+  severity: error
+  match: |
+    import\s+.*\s+from\s+['"](mdc:(?!.*\.module\.scss).*\.scss)['"]
+  message: "Use .module.scss files for component styles"
+  options: {
+    allowed_patterns: ["*.module.scss"],
+    component_match: true
+  }
+}
+
+rule "tailwind_priority" {
+  description: "Prefer Tailwind classes over custom CSS"
+  severity: warning
+  match: |
+    \.[a-z][a-zA-Z]*\s*{\s*(?!@apply)
+  message: "Consider using Tailwind classes instead of custom CSS"
+}
+
+### 4. Map-Specific Rules
+
+rule "map_provider_usage" {
+  description: "Enforce correct map provider usage"
+  severity: error
+  match: |
+    (useMapRootProvider|useMapProvider).*Map\.tsx
+  message: "Use appropriate map provider based on component location"
+  options: {
+    map_component_restrictions: {
+      "Map.tsx": ["useMapProvider"],
+      "MapRoot.tsx": ["useMapRootProvider"]
+    }
+  }
+}
+
+### 5. Code Quality Rules
+
+rule "component_line_limit" {
+  description: "Keep components under 250 lines"
+  severity: warning
+  match: |
+    export\s+const\s+[A-Z]\w+\s*=\s*(?:.*\n){250,}
+  message: "Component exceeds 250 lines. Consider breaking it down into smaller components"
+}
+
+rule "avoid_multiline_ternary" {
+  description: "Avoid multi-line ternary operators"
+  severity: warning
+  match: |
+    \?.*\n.*:
+  message: "Multi-line ternary operator detected. Use if/else or early return instead"
+}
+
+rule "exit_first_syntax" {
+  description: "Prefer exit-first syntax for conditions"
+  severity: warning
+  match: |
+    if\s*\(.*\)\s*\{[\s\S]+?\}\s*else\s*\{
+  message: "Consider using exit-first syntax instead of else blocks"
+}
+
+## Examples
+
+✅ Good Component:
+```tsx
+import styles from './UserProfile.module.scss';
+
+interface UserProfileProps {
+  user: User;
+  onUpdate: (user: User) => void;
+}
+
+export const UserProfile: React.FC<UserProfileProps> = ({ user, onUpdate }) => {
+  const handleUpdate = useCallback((data: UserData) => {
+    onUpdate({ ...user, ...data });
+  }, [user, onUpdate]);
+
+  return (
+    <div className={styles.container}>
+      {/* Component content */}
+    </div>
+  );
+};
+```
+
+❌ Bad Component:
+```tsx
+import './styles.scss';
+
+export default function userProfile(props) {
+  function handleUpdate(data) {
+    props.onUpdate({ ...props.user, ...data });
+  }
+
+  return (
+    <div className="container">
+      {/* Component content */}
+    </div>
+  );
+}
+```
+
+*Note: These guidelines should be enforced via ESLint/Prettier configurations and during code reviews.*
