@@ -1,13 +1,19 @@
 ---
-description: Props for React Components
-globs: *.tsx *.ts
+description: "Guidelines for component properties in React. Ensures explicit prop interfaces, type safety, and clear naming."
+globs:
+  - "**/*.tsx"
 alwaysApply: false
 ---
-// component_props_interface.mdc
-rule "component_props_interface" {
-  description: "Ensure components have properly typed props"
-  severity: error
-  match: |
-    export\s+const\s+([A-Z]\w+)\s*=\s*\(\s*(?!:)
-  message: "Component props must be explicitly typed"
-}
+# Component Props Guidelines
+
+- **Explicit Interfaces:**
+  - Always define explicit prop interfaces using TypeScript.
+  - Avoid using `any`—enforce strict types.
+
+- **Naming & Defaults:**
+  - Use descriptive names and provide default values when applicable.
+  - Ensure consistency across components.
+
+- **Reference:**
+  - Detailed examples can be found in @notes/frontend_guidelines.md.
+

@@ -1,0 +1,36 @@
+---
+description: "Rules to control agentic functions. These guidelines enforce pacing, scope boundaries, and clear communication to prevent uncontrolled changes."
+alwaysApply: false
+---
+# Agentic Functions & Operational Control
+
+## Pacing and Scope Control
+- **Explicit Checkpoints:**
+  - Pause after completing each logical unit of work and wait for explicit approval before continuing.
+  - Do not implement more than one task in a single session without confirmation.
+- **Minimalist Implementation:**
+  - Always implement the absolute minimum required to meet the task’s requirements.
+  - When in doubt, choose the narrower interpretation of the task.
+- **Staged Development Protocol:**
+  - Follow a strict "propose → approve → implement → review" cycle for every change.
+  - Summarize each implemented component before moving on.
+
+## Scope Boundary Enforcement
+- **File Touching:**
+  - If a task requires changes in more than the identified files, pause and request explicit permission.
+  - Avoid “while I'm at it” improvements without prior approval.
+
+## Communication Protocols
+- **Mandatory Checkpoints:**
+  - After every change, summarize what was done and outline the next steps.
+  - Mark each feature as [COMPLETE] and ask for confirmation before proceeding.
+- **Complexity Warning System:**
+  - If changes affect more than 3 files, flag the change as [COMPLEX CHANGE] and wait for explicit approval.
+  - Identify potential ripple effects before implementing changes.
+- **Change Magnitude Indicators:**
+  - Classify changes as [MINOR] (1–5 lines), [MODERATE] (5–20 lines), or [MAJOR] (20+ lines).
+  - For [MAJOR] changes, provide a detailed plan and await approval.
+- **Testability Focus:**
+  - Stop at the earliest testable checkpoint.
+  - Do not proceed past a testable stage without confirmation that current implementation works.
+

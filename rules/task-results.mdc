@@ -1,0 +1,17 @@
+---
+description: "Guidelines for recording task outcomes and documenting results. Helps in tracking issues, improvements, and next steps."
+globs:
+  - "**/*"
+alwaysApply: false
+---
+# Task Results Documentation Guidelines
+
+- **Outcome Documentation:**
+  - Clearly record the outcome of each task in @notes/conversation_summary.md.
+
+- **Issue & Follow-up:**
+  - Log any issues or follow-up actions and classify changes by their impact.
+
+- **Review Process:**
+  - Use documented results to refine processes and improve future task breakdowns.
+

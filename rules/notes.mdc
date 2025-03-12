@@ -1,16 +1,14 @@
 ---
-description: Keep Notes
-globs: 
+description: "Integrated guidelines that reference legacy documentation. Use these references to quickly access essential project documentation without duplicating content."
+globs:
+  - "**/*"
 alwaysApply: false
 ---
-// cursor_ai_task_and_summary.mdc
-rule "cursor_ai_task_and_summary" {
-  description: "Ensure the Cursor AI maintains 'task_list.md' and 'conversation_summary.md' with active/planned tasks and current conversation notes"
-  severity: info
-  message: "Cursor AI must update 'task_list.md' with active and planned tasks and regularly refresh 'conversation_summary.md' with conversation notes after significant updates."
-  options: {
-    task_list_file: "task_list.md",
-    summary_file: "conversation_summary.md",
-    update_interval: "after each significant conversation update"
-  }
-}
+# Integrated Documentation References
+
+- **Architecture:** Refer to @notes/architecture.md for the high-level system design.
+- **Code Style:** Follow the detailed guidelines in @notes/code_style_guide.md.
+- **Frontend Guidelines:** See @notes/frontend_guidelines.md for component and styling best practices.
+- **Project Overview & Task Management:** Check @notes/project_overview.md, @notes/conversation_summary.md, and @notes/task_list.md for context.
+- **Directory Structure:** Use @notes/directory_structure.md to understand file organization.
+

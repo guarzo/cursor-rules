@@ -1,256 +1,33 @@
 ---
-description: Backend Development
-globs: *.ex *.exs *.heex
+description: "Backend guidelines for Elixir, Phoenix, and Ash code. Applies to all .ex and .exs files. Focuses on idiomatic functional programming, clear module organization, and robust error handling."
+globs:
+  - "**/*.ex"
+  - "**/*.exs"
 alwaysApply: false
 ---
----
-version: 1.0
-description: Backend Development Guidelines
-globs: *.ex,*.exs,*.heex
-lastUpdated: 2025-03-08
----
+# Backend (Elixir/Phoenix/Ash) Guidelines
 
-# Wanderer Project – Backend Guidelines
+- **Code Style & Structure:**
+  - Write concise, idiomatic Elixir code that leverages functional programming and immutability.
+  - Use recursion or higher-order functions instead of imperative loops.
+  - Use descriptive names: Modules in PascalCase and functions/variables in snake_case.
+  - Keep controllers slim; delegate business logic to contexts (or Ash domains).
 
-## Quick Reference
-- ✅ Use Ash.Resource for domain entities
-- ✅ Follow strict block ordering in resources
-- ❌ No direct Repo calls outside approved modules
-- ❌ No missing module documentation
-- ⚠️ Follow strict module naming conventions
-- ⚠️ Document all public functions
+- **Framework Best Practices:**
+  - Leverage Ash Framework to eliminate boilerplate CRUD code.
+  - Define resources, actions, and validations in Ash to focus on business logic.
+  - Use Ecto’s query and changeset DSL (via Ash) effectively; preload associations to avoid N+1 queries.
+  - Embrace OTP principles with proper supervision trees and the “let it crash” philosophy.
 
-## Module & Resource Organization
+- **Error Handling & Security:**
+  - Use changesets for validation and provide user-friendly error messages.
+  - Guard against common vulnerabilities (e.g., XSS, CSRF).
+  - Validate all inputs and secure sensitive operations.
 
-### Resource Block Order
-1. `use Ash.Resource`
-2. `postgres do ... end`
-3. *(Optional)* `code_interface do ... end`
-4. `actions do ... end`
-5. *(Optional)* `aggregates do ... end`
-6. `attributes do ... end`
-7. *(Optional)* `relationships do ... end`
+- **Documentation:**
+  - Document public modules and functions with @moduledoc and @doc; include @spec types for clarity.
+  - Follow Phoenix’s and Ash’s conventions for project structure and file organization.
 
-### Module Organization
-- Organize modules by domain under `lib/wanderer_app/`
-- Module names must match their file paths
-- Exceptions must be explicitly documented
+- **Reference:**
+  - See @notes/code_style_guide.md for comprehensive backend standards.
 
-### Database Access
-- Direct Repo calls only in:
-  - Ash resource actions
-  - Repository modules
-- Optimize queries with proper indexing
-
-### Error Handling
-- Use structured error responses
-- Implement comprehensive logging
-- Handle WebSocket events with proper error handling
-
-## MDC Rules
-
-### 1. Module Structure Rules
-
-rule "module_naming" {
-  description: "Module names must align with file paths"
-  severity: warning
-  match: |
-    defmodule\s+((?:\w+\.)+\w+)\s+do
-  message: "Module '{{match[1]}}' might not match the expected file path convention"
-  options: {
-    allowed_exceptions: [
-      "WandererApp.Map.Server.AclsImpl",
-      "WandererApp.Map.Server.Supervisor"
-    ]
-  }
-}
-
-rule "module_documentation" {
-  description: "Modules must include documentation"
-  severity: error
-  match: |
-    defmodule\s+(?:\w+\.)+\w+\s+do\s*(?!@moduledoc)
-  message: "Module must include @moduledoc documentation"
-  examples: {
-    correct: [
-      "defmodule MyApp.User do\n  @moduledoc \"\"\"\n  User context and schema.\n  \"\"\""
-    ],
-    incorrect: [
-      "defmodule MyApp.User do\n  use Ash.Resource"
-    ]
-  }
-}
-
-### 2. Resource Structure Rules
-
-rule "ash_resource_structure" {
-  description: "Ash resource modules must follow strict block ordering"
-  severity: error
-  match: |
-    use\s+Ash\.Resource[\s\S]+?(postgres\s+do[\s\S]+?end)\s*(code_interface\s+do[\s\S]+?end)?\s*(actions\s+do[\s\S]+?end)\s*(aggregates\s+do[\s\S]+?end)?\s*(attributes\s+do[\s\S]+?end)\s*(relationships\s+do[\s\S]+?end)?
-  message: "The order of Ash DSL blocks is incorrect. Please follow: use Ash.Resource -> postgres -> code_interface -> actions -> aggregates -> attributes -> relationships"
-  options: { enforce_order: true }
-}
-
-rule "resource_documentation" {
-  description: "Resource attributes and relationships must be documented"
-  severity: warning
-  match: |
-    (attribute|relationship)\s+:[a-z_]+\s*,\s*[^,\n]+(?!\s*,\s*do:)
-  message: "Add documentation for resource fields using the :do option"
-  examples: {
-    correct: [
-      "attribute :name, :string, do: \"User's full name\"",
-      "relationship :posts, :many, do: \"User's blog posts\""
-    ],
-    incorrect: [
-      "attribute :name, :string",
-      "relationship :posts, :many"
-    ]
-  }
-}
-
-### 3. Database Access Rules
-
-rule "db_access" {
-  description: "Direct Repo calls must be confined to approved modules"
-  severity: error
-  match: |
-    WandererApp\.Repo\.(all|get|insert|update|delete)\(
-  message: "Direct Repo access detected. Use Ash actions or repository modules"
-  options: {
-    allowed_paths: [
-      "lib/wanderer_app/api/",
-      "lib/wanderer_app/repositories/"
-    ]
-  }
-}
-
-### 4. Function Rules
-
-rule "function_documentation" {
-  description: "Public functions must include documentation"
-  severity: warning
-  match: |
-    ^\s*def\s+([a-z_]+[?!]?)\s*(?!\(@doc)
-  message: "Public function {{match[1]}} should include @doc documentation"
-  examples: {
-    correct: [
-      "@doc \"Creates a new user\"\ndef create_user(attrs) do",
-      "@doc \"Deletes a user\"\ndef delete_user(id) do"
-    ],
-    incorrect: [
-      "def create_user(attrs) do",
-      "def delete_user(id) do"
-    ]
-  }
-}
-
-### 5. Code Quality Rules
-
-rule "spacing_formatting" {
-  description: "Ensure consistent spacing between blocks"
-  severity: warning
-  match: |
-    (end)(\n)(?!\n)
-  message: "Insert a blank line after 'end' to improve readability"
-  options: { 
-    enforce_blank_line: true,
-    max_line_length: 100,
-    allow_long_doc_blocks: true
-  }
-}
-
-rule "pipe_chain_start" {
-  description: "Pipe chains should start with raw value"
-  severity: warning
-  match: |
-    ^\s*[a-zA-Z_]+\.[a-zA-Z_]+.*\|>
-  message: "Pipe chains should start with a raw value, not a function call"
-  examples: {
-    correct: [
-      "users\n|> where(active: true)\n|> select(:name)",
-      "\"hello\"\n|> String.upcase()\n|> String.trim()"
-    ],
-    incorrect: [
-      "Repo.all(User) |> where(active: true)",
-      "String.upcase(name) |> String.trim()"
-    ]
-  }
-}
-
-## Examples
-
-✅ Good Resource:
-```elixir
-defmodule WandererApp.Users.User do
-  @moduledoc """
-  User resource definition for the application.
-  """
-  use Ash.Resource
-  
-  postgres do
-    table "users"
-    index [:email]
-  end
-  
-  attributes do
-    uuid_primary_key :id
-    attribute :email, :string, do: "User's email address"
-    attribute :name, :string, do: "User's full name"
-  end
-  
-  actions do
-    defaults [:create, :read, :update, :destroy]
-  end
-  
-  relationships do
-    has_many :posts, WandererApp.Posts.Post, do: "User's blog posts"
-  end
-end
-```
-
-❌ Bad Resource:
-```elixir
-defmodule WandererApp.Users.User do
-  use Ash.Resource
-  
-  attributes do
-    uuid_primary_key :id
-    attribute :email, :string
-    attribute :name, :string
-  end
-  
-  postgres do
-    table "users"
-  end
-  
-  actions do
-    defaults [:create, :read, :update, :destroy]
-  end
-end
-```
-
-✅ Good Repository Module:
-```elixir
-defmodule WandererApp.Repositories.UserRepository do
-  @moduledoc """
-  Handles complex user queries and operations.
-  """
-  
-  alias WandererApp.Repo
-  alias WandererApp.Users.User
-  
-  @doc """
-  Fetches active users with their recent posts.
-  """
-  def list_active_users_with_posts do
-    User
-    |> where(active: true)
-    |> preload(:posts)
-    |> Repo.all()
-  end
-end
-```
-
-*Note: These guidelines should be enforced during code review and through automated tools where possible.*

@@ -1,0 +1,30 @@
+---
+description: "Global project guidelines that must always be applied. This includes overall coding standards, areas of expertise, self-documentation, and continuous improvement protocols."
+alwaysApply: true
+---
+# Global Project Guidelines
+
+- **Areas of Expertise:**
+  - You are an expert in Elixir (including the Ash Framework, Phoenix, and Ecto).
+  - You are an expert in modern web frontends (JavaScript/TypeScript, React, Node.js).
+
+- **Coding & Commitment:**
+  - Follow team coding standards and use configured formatters (Mix formatter, Prettier, etc.).
+  - Use Conventional Commits for clear, descriptive commit messages.
+
+- **Error Handling & Logging:**
+  - Implement robust error handling; use structured logging with contextual details.
+  - Always validate inputs and handle exceptions gracefully.
+
+- **Documentation & References:**
+  - Always consult and reference the detailed documentation files (e.g. @notes/architecture.md, @notes/code_style_guide.md).
+  - Update project summaries and conversation notes regularly.
+
+- **Self-Documentation and Clarity:**
+  - Write self-documenting code using clear, intention-revealing names and proper type annotations.
+  - Add inline comments or docstrings when the purpose isn’t obvious.
+
+- **Continuous Improvement:**
+  - Treat these guidelines as a living document—review and refine them as the project evolves.
+  - Strive for simplicity, clarity, and maintainability in all code changes.
+

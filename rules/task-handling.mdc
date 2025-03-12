@@ -1,0 +1,20 @@
+---
+description: "Guidelines for task management and breakdown. Ensures clear documentation and actionable task tracking."
+globs:
+  - "**/*"
+alwaysApply: false
+---
+# Task Handling Guidelines
+
+- **Task Breakdown:**
+  - Use the MECE (Mutually Exclusive, Collectively Exhaustive) principle to break down tasks.
+
+- **Documentation:**
+  - Update @notes/task_list.md and @notes/conversation_summary.md to record task progress.
+
+- **Commit Practices:**
+  - Use Conventional Commits for clarity and consistency.
+
+- **Actionability:**
+  - Ensure each task is well-defined, measurable, and limited in scope.
+
