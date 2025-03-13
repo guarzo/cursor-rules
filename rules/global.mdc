@@ -1,30 +1,30 @@
 ---
-description: "Global project guidelines that must always be applied. This includes overall coding standards, areas of expertise, self-documentation, and continuous improvement protocols."
+description: "Global project guidelines that apply across all teams and codebases. Covers best practices, structured change management, and review processes."
 alwaysApply: true
 ---
 # Global Project Guidelines
 
-- **Areas of Expertise:**
-  - You are an expert in Elixir (including the Ash Framework, Phoenix, and Ecto).
-  - You are an expert in modern web frontends (JavaScript/TypeScript, React, Node.js).
+## Code Quality
+- Maintain consistency and clarity in all code.
+- Keep functions and modules focused on a single responsibility.
+- Use meaningful, descriptive names for variables, functions, and classes.
+- Avoid unnecessary complexity—simplify logic where possible.
 
-- **Coding & Commitment:**
-  - Follow team coding standards and use configured formatters (Mix formatter, Prettier, etc.).
-  - Use Conventional Commits for clear, descriptive commit messages.
+## Structured Change Management (MECE Process)
+- **Use the MECE (Mutually Exclusive, Collectively Exhaustive) approach** when breaking down tasks:
+  - Ensure tasks are clear, non-overlapping, and comprehensive.
+  - Each change should be well-scoped and limited in impact.
+- **Pre-Implementation Discussion:** If an update modifies more than **three files**, a discussion must occur before proceeding.
+  - Provide a high-level summary of the proposed changes.
+  - Break large updates into smaller, incremental changes if needed.
+- **Code Review Process:** All major changes must be reviewed before merging to maintain consistency and prevent regressions.
 
-- **Error Handling & Logging:**
-  - Implement robust error handling; use structured logging with contextual details.
-  - Always validate inputs and handle exceptions gracefully.
+## Documentation & Communication
+- Keep comprehensive documentation and update it regularly.
+- Store all project documentation in the `notes/` directory.
+- Maintain a changelog for significant updates.
 
-- **Documentation & References:**
-  - Always consult and reference the detailed documentation files (e.g. @notes/architecture.md, @notes/code_style_guide.md).
-  - Update project summaries and conversation notes regularly.
-
-- **Self-Documentation and Clarity:**
-  - Write self-documenting code using clear, intention-revealing names and proper type annotations.
-  - Add inline comments or docstrings when the purpose isn’t obvious.
-
-- **Continuous Improvement:**
-  - Treat these guidelines as a living document—review and refine them as the project evolves.
-  - Strive for simplicity, clarity, and maintainability in all code changes.
-
+## Testing & Validation
+- Implement thorough testing before committing changes.
+- Ensure all unit and integration tests pass before merging.
+- Handle errors gracefully—never allow silent failures.
