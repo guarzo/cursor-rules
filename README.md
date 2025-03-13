@@ -13,7 +13,7 @@ To set up a centralized set of Cursor rules without including them in your Git h
 Run the following command from your project root to download and execute the install script in a single step:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/yourusername/project-rules/main/install_rules.sh | bash
+curl -fsSL https://raw.githubusercontent.com/guarzo/cursor-rules/main/install_rules.sh | bash
 ```
 
 This command will:
@@ -26,7 +26,7 @@ This command will:
 Alternatively, add the rules repository as a Git submodule:
 
 ```bash
-git submodule add https://github.com/yourusername/project-rules.git .cursor/rules
+git submodule add https://github.com/guarzo/cursor-rules.git .cursor/rules
 ```
 
 After adding, you may choose to add <code>.cursor/rules/</code> to your <code>.gitignore</code> if you prefer not to track submodule updates in your main repository.
@@ -35,43 +35,8 @@ After adding, you may choose to add <code>.cursor/rules/</code> to your <code>.g
 
 ## 2. Generating the Directory Structure
 
-A helper script named <code>dir_setup.sh</code> is provided to output the current directory structure into a Markdown file at <code>.notes/directory_structure.md</code>.
-
-### Example <code>dir_setup.sh</code> Script
-
-Place the following script in your project root as <code>dir_setup.sh</code>:
-
-```bash
-#!/usr/bin/env bash
-
-# Set the project root (current directory) and output file path
-PROJECT_ROOT="$(pwd)"
-OUTPUT_FILE="${PROJECT_ROOT}/.notes/directory_structure.md"
-MAX_DEPTH=4
-
-# Ensure the .notes directory exists
-mkdir -p "$(dirname "$OUTPUT_FILE")"
-
-# Generate a simple directory structure in markdown format
-echo "# Project Directory Structure" > "$OUTPUT_FILE"
-echo "Below is an overview of the project’s file structure:" >> "$OUTPUT_FILE"
-echo "<code>```</code>" >> "$OUTPUT_FILE"
-find "$PROJECT_ROOT" -maxdepth "$MAX_DEPTH" -type f | sort >> "$OUTPUT_FILE"
-echo "<code>```</code>" >> "$OUTPUT_FILE"
-
-echo "Directory structure has been updated in .notes/directory_structure.md"
 ```
-
-Make the script executable:
-
-```bash
-chmod +x dir_setup.sh
-```
-
-Then run it from your project root:
-
-```bash
-./dir_setup.sh
+curl -fsSL https://raw.githubusercontent.com/guarzo/cursor-rules/main/dir_setup.sh | bash
 ```
 
 ---
