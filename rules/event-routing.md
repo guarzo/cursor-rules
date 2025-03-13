@@ -4,8 +4,6 @@ globs:
   - "**/*.{ex,tsx}"
 alwaysApply: false
 ---
-
-
 # Event Routing Guidelines
 
 - **Naming Conventions:**  
