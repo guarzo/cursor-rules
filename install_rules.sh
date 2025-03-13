@@ -10,7 +10,7 @@
 # Note: Replace the RULES_REPO URL with your actual rules repository URL.
 
 TARGET_DIR=".cursor/rules"
-RULES_REPO="https://github.com/yourusername/project-rules.git"
+RULES_REPO="https://github.com/guarzo/cursor-rules.git"
 
 echo "Cloning rules repository from ${RULES_REPO}..."
 TMP_DIR=$(mktemp -d)
