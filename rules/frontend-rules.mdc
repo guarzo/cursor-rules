@@ -14,9 +14,9 @@ alwaysApply: false
 
 ## Component Conventions
 - Use functional components with Hooks. Define components as:
-  \`\`\`tsx
+  ```tsx
   export const MyComponent = () => { ... }
-  \`\`\`
+  ```
 - Use PascalCase for component names and camelCase for props and variables.
 - Keep components under 250 lines; extract complex logic into custom hooks or helper files.
 - **Avoid passing refs into props** except when used explicitly for imperativeHandlers (e.g. via React.forwardRef/useImperativeHandle).
