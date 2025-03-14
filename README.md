@@ -19,19 +19,6 @@ curl -fsSL https://raw.githubusercontent.com/guarzo/cursor-rules/main/install_ru
 This command will:
 - Download the <code>install_rules.sh</code> script from the central rules repository.
 - Execute the script, which clones the repository and copies the rule files into the <code>.cursor/rules</code> directory.
-- **Note:** Make sure to add <code>.cursor/rules/</code> to your <code>.gitignore</code> so these files do not appear in your project's Git history.
-
-### Option B: Git Submodule
-
-Alternatively, add the rules repository as a Git submodule:
-
-```bash
-git submodule add https://github.com/guarzo/cursor-rules.git .cursor/rules
-```
-
-After adding, you may choose to add <code>.cursor/rules/</code> to your <code>.gitignore</code> if you prefer not to track submodule updates in your main repository.
-
----
 
 ## 2. Generating the Directory Structure
 
@@ -48,13 +35,19 @@ Use the following prompts with your AI tool to generate or update essential proj
 ### Project Overview Prompt
 
 ```
-"Generate a detailed project overview for a [brief description of the project, e.g., a web mapping application]. The overview should include the project's purpose, key features, technology stack, and user workflows. Ensure the overview is clear and accessible to both technical and non-technical stakeholders."
+"Generate a detailed project overview for a [brief description of the project, e.g., a web mapping application]. The overview should include the project's purpose, key features, technology stack, and user workflows. Ensure the overview is clear and accessible to both technical and non-technical stakeholders, save this in .notes/project_overview.md.
 ```
 
 ### Architecture Documentation Prompt
 
 ```
-"Generate a comprehensive architecture document for this project. Describe the overall system structure, including frontend and backend components, data flows, and integration points. Explain key design decisions, scalability considerations, and any critical technical challenges. The document should be detailed enough for developers and technical leads, yet understandable by project managers."
+"Generate a comprehensive architecture document for this project. Describe the overall system structure, including frontend and backend components, data flows, and integration points. Explain key design decisions, scalability considerations, and any critical technical challenges. The document should be detailed enough for developers and technical leads, yet understandable by project managers -- save this in .notes/architecture.md"
+```
+
+### Architecture Documentation Prompt
+
+```
+"Generate a coding style guide document for this project. Describe the coding style of the existing codebase, and those described in the .cursor/rules.  The document should be detailed enough for developers and technical leads, yet understandable by project managers -- save this as .notes/coding-style-guide.md
 ```
 
 Review and refine the generated output to ensure it accurately reflects your project.
